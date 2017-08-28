@@ -5,9 +5,9 @@ NOTE: If you have a Pi3 please go with UART styles
 ## Wiring
 	FTDI ---->GPS(L80-M39)
 	VCC 		VCC
-	GND			GND
+	GND		GND
 	TXD 		RXD
-	RXD			TXD
+	RXD		TXD
 
 ## Setup 
 Install minicom
