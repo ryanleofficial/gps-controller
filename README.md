@@ -14,8 +14,26 @@ Install minicom
 ```
 $ sudo apt-get install minicom
 ```
+Check data read from usb port 
+```
+$ sudo cat /dev/ttyUSB0
 
-After power on and login to system. Open terminal
+	You should see this :
+
+			$GPZDA,182728.000,23,07,2017,,*52
+			$GPRMC,182728.000,A,4729.9516,N,12209.9076,W,1.73,175.32,230717,,,A*7E
+			$GPGGA,182728.000,4729.9516,N,12209.9076,W,1,3,9.32,149.7,M,-17.3,M,,*63
+			$GPGSA,A,2,19,17,12,,,,,,,,,,9.37,9.32,1.00*0A
+			$GPTXT,01,01,02,ANTSTATUS=
+			$GPZDA,182729.000,23,07,2017,,*53
+```
+
+Check reading data using minicom
+```
+$ minicom -b 9600 -o -D /dev/ttyUSB0
+```
+
+Open terminal
 ```
 $ sudo apt-get update && sudo apt-get -y install gpsd gpsd-clients python-gps 
 ```
@@ -50,22 +68,4 @@ Run
 $ sudo cgps -s
 ```
 
-Check data read from usb port 
-```
-$ sudo cat /dev/ttyUSB0
 
-	You should see this :
-
-			$GPZDA,182728.000,23,07,2017,,*52
-			$GPRMC,182728.000,A,4729.9516,N,12209.9076,W,1.73,175.32,230717,,,A*7E
-			$GPGGA,182728.000,4729.9516,N,12209.9076,W,1,3,9.32,149.7,M,-17.3,M,,*63
-			$GPGSA,A,2,19,17,12,,,,,,,,,,9.37,9.32,1.00*0A
-			$GPTXT,01,01,02,ANTSTATUS=
-			$GPZDA,182729.000,23,07,2017,,*53
-```
-
-Check reading data using minicom
-
-```
-$ minicom -b 9600 -o -D /dev/ttyUSB0
-```
