@@ -68,4 +68,56 @@ Run
 $ sudo cgps -s
 ```
 
+# Using UART instead of USB (Adafruit Ultimate GPS on the Raspberry Pi)
+## Wiring:
+```
+	Pi ----- Adafruit Ultimate GPS
+	TxD  -	RxD
+	RxD  -	TxD
+	5v   -  5v
+	GND  -  GND
+```
 
+Edit /boot/cmdline.txt
+```
+$ sudo nano /boot/cmdline.txt
+```
+```
+And change:
+
+dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait
+
+to:
+dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait
+(eg, remove console=ttyAMA0,115200 and if there, kgdboc=ttyAMA0,115200)
+
+Note: you might see console=serial0,115200 or console=ttyS0,115200 and should remove those parts of the line if present.
+```
+## Raspbian Jessie
+To stop and disable the tty service:
+```
+sudo systemctl stop serial-getty@ttyAMA0.service
+sudo systemctl disable serial-getty@ttyAMA0.service 
+```
+
+Edit the /boot/config.txt file:
+```
+sudo nano /boot/config.txt
+```
+
+At the very bottom of the file add this on a new line:
+```
+enable_uart=1
+```
+Reboot your Pi
+
+Run these commands:
+```
+$ sudo killall gpsd
+$ sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+```
+
+Test Output:
+```
+$ cgps -s
+```
